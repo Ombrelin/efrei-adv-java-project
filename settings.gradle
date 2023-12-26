@@ -1,0 +1,2 @@
+rootProject.name = 'adv-java-monopoly'
+include('core')

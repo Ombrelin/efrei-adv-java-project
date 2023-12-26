@@ -1,0 +1,41 @@
+name,kind,color,price
+Départ,start,,
+Rue Raspail,property,brown,60
+Caisse de Communauté,card,,
+Rue Victor Hugo,property,brown,60
+Impôts sur le revenu,tax,,200
+Villejuif - Léo Lagrange,station,,200
+Rue Jean Jaurès,property,lightblue,100
+Chance,card,"",""
+Boulevard Maxime Gorki,property,lightblue,100
+Rue Youri Gagarine,property,lightblue,120
+Prison,jail,,
+Avenue Louis Aragon,property,rose,140
+Electricité de Villejuif,company,,150
+Avenue de la République,property,rose,140
+Avenue de Stalingrad,property,rose,160
+Villejuif - Paul Vaillant-Couturier,station,,200
+Allée Berlioz,property,orange,180
+Caisse de Communauté,card,,
+Rue du Moulin de Saquet,property,orange,180
+Sentier de la Commune,property,orange,200
+Rue Carpeaux,free_park,,
+Rue Pascal,property,red,200
+Chance,card,,
+Rue Blanqui,property,red,220
+Rue Rosa Luxembourg,property,red,240
+Villejuif - Louis Aragon,station,,200
+Rue de Bretagne,property,yellow,260
+Rue René Hamon,property,yellow,260
+Boulangerie La Fabrique,company,,150
+Rue Guy Môquet,property,yellow,280
+Allez en Prison !,goto_prison,,
+Rue Henri Barbusse,property,green,300
+Rue Ambroise Croizat,property,green,300
+Caisse de Communauté,card,,
+Rue de Verdun,property,green,320
+Villejuif - Gustave Roussy,station,,200
+Chance,card,,
+Avenue de Paris,property,darkblue,350
+Taxe foncière,tax,,100
+Avenue Paul Vaillant Couturier,property,darkblue,400
