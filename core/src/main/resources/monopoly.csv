@@ -29,7 +29,7 @@ Rue de Bretagne,property,yellow,260
 Rue René Hamon,property,yellow,260
 Boulangerie La Fabrique,company,,150
 Rue Guy Môquet,property,yellow,280
-Allez en Prison !,goto_prison,,
+Allez en Prison !,go_to_jail,,
 Rue Henri Barbusse,property,green,300
 Rue Ambroise Croizat,property,green,300
 Caisse de Communauté,card,,

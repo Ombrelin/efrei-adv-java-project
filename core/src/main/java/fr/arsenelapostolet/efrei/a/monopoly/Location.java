@@ -4,13 +4,15 @@ public interface Location {
 
     String getName();
 
-    public enum Kind {
+    LocationKind getKind();
+
+    enum LocationKind {
         START,
         PROPERTY,
         TAX,
         STATION,
         CARD,
-        PRISON,
+        JAIL,
         COMPANY,
         FREE_PARK,
         GO_TO_JAIL
