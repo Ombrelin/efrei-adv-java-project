@@ -1,4 +1,4 @@
-package fr.arsenelapostolet.efrei.a.monopoly;
+package fr.arsenelapostolet.efrei.monopoly;
 
 import java.util.Map;
 import java.util.UUID;

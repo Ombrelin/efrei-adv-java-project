@@ -1,4 +1,4 @@
-package fr.arsenelapostolet.efrei.a.monopoly;
+package fr.arsenelapostolet.efrei.monopoly;
 
 public interface Dices {
 

@@ -1,4 +1,4 @@
-package fr.arsenelapostolet.efrei.a.monopoly;
+package fr.arsenelapostolet.efrei.monopoly;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +35,23 @@ public abstract class BaseMonopolyTests {
 
         assertPlayerIsOnLocation(locations, player1, "Rue Victor Hugo", Location.LocationKind.PROPERTY);
         assertPlayerIsOnLocation(locations, player2, "Départ", Location.LocationKind.START);
+        assertPlayerIsOnLocation(locations, player3, "Départ", Location.LocationKind.START);
+        assertPlayerIsOnLocation(locations, player4, "Départ", Location.LocationKind.START);
+    }
+
+    @Test
+    public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored(){
+        // Given
+        fakeDices.setScore(5);
+
+        // When
+        monopoly.submitOrder(player3, OrderKind.IDLE);
+
+        // Then
+        final var locations = monopoly.getPlayersLocation();
+
+        assertPlayerIsOnLocation(locations, player1, "Rue Victor Hugo", Location.LocationKind.PROPERTY);
+        assertPlayerIsOnLocation(locations, player2, "Départ", Location.LocationKind.STATION);
         assertPlayerIsOnLocation(locations, player3, "Départ", Location.LocationKind.START);
         assertPlayerIsOnLocation(locations, player4, "Départ", Location.LocationKind.START);
     }
