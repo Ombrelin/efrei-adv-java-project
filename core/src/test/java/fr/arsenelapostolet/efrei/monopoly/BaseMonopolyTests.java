@@ -3,10 +3,12 @@ package fr.arsenelapostolet.efrei.monopoly;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BaseMonopolyTests {
@@ -26,6 +28,8 @@ public abstract class BaseMonopolyTests {
         fakeDices.setScore(3);
         monopoly = createMonopoly(fakeDices, List.of(player1, player2, player3, player4));
     }
+
+    // Livrable 1
 
     @Test
     public void start_firstPlayerMoved() {
@@ -153,6 +157,18 @@ public abstract class BaseMonopolyTests {
         assertPlayerIsOnLocation(locations, player2, "Boulevard Maxime Gorki", Location.LocationKind.PROPERTY); // P2 advanced 8
         assertPlayerIsOnLocation(locations, player3, "Boulevard Maxime Gorki", Location.LocationKind.PROPERTY); // P3 advanced 8
         assertPlayerIsOnLocation(locations, player4, "Rue Victor Hugo", Location.LocationKind.PROPERTY); // P4 advanced 3
+    }
+
+    // Livrable 2
+
+    @Test
+    public void start_balance_playerHaveStartingMoney(){
+        // When
+        final var balances = monopoly.getPlayersBalance();
+
+        // Then
+        assertThat(balances.values())
+                .allMatch(balance -> balance.equals(new BigDecimal(1500)));
     }
 
     private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String locationName, Location.LocationKind locationKing) {
