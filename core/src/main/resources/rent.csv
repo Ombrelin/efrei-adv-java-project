@@ -1,0 +1,23 @@
+property,cost,lvl1,lvl2,lvl3,lvl4,lvl5
+Rue Raspail,50,10,30,90,160,250
+Rue Victor Hugo,50,20,60,180,320,450
+Rue Jean Jaurès,50,30,90,270,400,550
+Boulevard Maxime Gorki,50,30,90,270,400,550
+Rue Youri Gagarine,50,40,100,300,450,600
+Avenue Louis Aragon,100,50,150,450,625,750
+Avenue de la République,100,50,150,450,625,750
+Avenue de Stalingrad,100,60,180,500,700,900
+Allée Berlioz,100,70,200,550,750,950
+Ruedu Moulin de Saquet,100,70,200,550,750,950
+Sentier de la Commune,100,80,220,600,800,1000
+Rue Pascal,150,90,250,700,875,1050
+Rue Blanqui,150,90,250,700,875,1050
+Rue Rosa Luxembourg,150,100,300,750,900,1100
+Rue de Bretagne,150,110,330,800,975,1150
+Rue René Hamon,150,110,330,800,975,1150
+Rue Guy Môquet,150,120,360,850,1025,1200
+Rue Henri Barbusse,200,130,390,900,1100,1275
+Rue Ambroise Croizat,200,130,390,900,1100,1275
+Rue de Verdun,200,150,450,1000,1200,1400
+Avenue de Paris,200,175,500,1100,1300,1500
+Avenue Paul Vaillant Couturier,200,200,600,1400,1700,2000

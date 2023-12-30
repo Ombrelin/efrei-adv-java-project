@@ -44,7 +44,7 @@ public abstract class BaseMonopolyTests {
     }
 
     @Test
-    public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored(){
+    public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored() {
         // Given
         fakeDices.setScore(5);
 
@@ -162,7 +162,7 @@ public abstract class BaseMonopolyTests {
     // Livrable 2
 
     @Test
-    public void start_balance_playerHaveStartingMoney(){
+    public void start_balance_playerHaveStartingMoney() {
         // When
         final var balances = monopoly.getPlayersBalance();
 
@@ -171,10 +171,127 @@ public abstract class BaseMonopolyTests {
                 .allMatch(balance -> balance.equals(new BigDecimal(1500)));
     }
 
+    @Test
+    public void buy_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
+        monopoly.submitOrder(player1, OrderKind.BUY);
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var boughtProperty = findLocationByName("Rue Victor Hugo");
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(1500 - 60));
+        assertThat(boughtProperty.getOwner()).isEqualTo(player1);
+    }
+
+    @Test
+    public void rent_whenPropertyIsOwned_rentIsPaidToOwner() {
+        // When
+        buy_propertyIsOwnedByBuyerAndTheirMoneyIsSpent(); // Advances player2 by 3 too
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(1500 - 60 + 4));
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 4));
+    }
+
+    @Test
+    public void buy_whenPropertyIsStation_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
+        // When
+        fakeDices.setScore(5);
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
+
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var boughtProperty = findLocationByName("Villejuif - Léo Lagrange");
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 200));
+        assertThat(boughtProperty.getOwner()).isEqualTo(player2);
+    }
+
+    @Test
+    public void rent_whenPropertyIsStation_rentIsPaidToOwner() {
+        // Given
+        buy_whenPropertyIsStation_propertyIsOwnedByBuyerAndTheirMoneyIsSpent();
+
+        // When
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var player3Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 200 + 25));
+        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - 25));
+    }
+
+
+    @Test
+    public void buy_whenPropertyIsCompany_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
+        // When
+        fakeDices.setScore(12);
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
+
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var boughtProperty = findLocationByName("Electricité de Villejuif");
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 150));
+        assertThat(boughtProperty.getOwner()).isEqualTo(player2);
+    }
+
+    @Test
+    public void rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner() {
+        // When
+        buy_whenPropertyIsCompany_propertyIsOwnedByBuyerAndTheirMoneyIsSpent(); // Advances player2 by 3 too
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var player3Balance = monopoly.getPlayersBalance().get(player3);
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 150 + (12 * 4)));
+        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - (12 * 4)));
+    }
+
+    @Test
+    public void rent_whenPropertyIsCompanyAndOwnerOwnTwo_rentIsPaidToOwner() {
+        // Given
+        rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner();
+
+        // When
+        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player4, OrderKind.IDLE);
+        fakeDices.setScore(16);
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
+
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var player3Balance = monopoly.getPlayersBalance().get(player3);
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal((1500 - 150) + (2 * (12 * 4)) + (16 * 10)));
+        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - (12 * 4) - (16 * 10)));
+    }
+
+    @Test
+    public void rent_whenPlayerHasLessThan0Money_playerIsRemovedFromGame() {
+    }
+
+    @Test
+    public void rent_whenLessThanTwoPlayers_exceptionIsThrown() {
+    }
+
     private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
         final var playerLocation = locations.get(player);
         assertThat(playerLocation.getName()).isEqualTo(expectedLocationName);
         assertThat(playerLocation.getKind()).isEqualTo(expectedLocationKind);
+    }
+
+    private Location findLocationByName(String anObject) {
+        return monopoly
+                .getBoard()
+                .stream()
+                .filter(property -> property.getName().equals(anObject))
+                .findFirst()
+                .get();
     }
 
 }
