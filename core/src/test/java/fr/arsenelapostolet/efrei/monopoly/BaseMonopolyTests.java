@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BaseMonopolyTests {
@@ -155,10 +156,10 @@ public abstract class BaseMonopolyTests {
         assertPlayerIsOnLocation(locations, player4, "Rue Victor Hugo", Location.LocationKind.PROPERTY); // P4 advanced 3
     }
 
-    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String locationName, Location.LocationKind locationKing) {
+    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
         final var playerLocation = locations.get(player);
-        assertEquals(locationName, playerLocation.getName());
-        assertEquals(locationKing, playerLocation.getKind());
+        assertThat(playerLocation.getName()).isEqualTo(expectedLocationName);
+        assertThat(playerLocation.getKind()).isEqualTo(expectedLocationKind);
     }
 
 }
