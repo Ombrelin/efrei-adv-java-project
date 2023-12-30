@@ -23,6 +23,12 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
 idea {
     module {
         downloadJavadoc = true

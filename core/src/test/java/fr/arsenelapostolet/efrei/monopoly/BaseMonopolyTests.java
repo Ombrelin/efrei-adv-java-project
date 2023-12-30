@@ -171,10 +171,10 @@ public abstract class BaseMonopolyTests {
                 .allMatch(balance -> balance.equals(new BigDecimal(1500)));
     }
 
-    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String locationName, Location.LocationKind locationKing) {
+    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
         final var playerLocation = locations.get(player);
-        assertEquals(locationName, playerLocation.getName());
-        assertEquals(locationKing, playerLocation.getKind());
+        assertThat(playerLocation.getName()).isEqualTo(expectedLocationName);
+        assertThat(playerLocation.getKind()).isEqualTo(expectedLocationKind);
     }
 
 }
