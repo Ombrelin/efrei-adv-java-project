@@ -251,7 +251,7 @@ public abstract class BaseMonopolyTests {
     }
 
     @Test
-    public void rent_whenPropertyIsCompanyAndOwnerOwnTwo_rentIsPaidToOwner() {
+    public void rent_whenPropertyIsCompanyAndOwnerOwnsTwo_rentIsPaidToOwner() {
         // Given
         rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner();
 
@@ -272,10 +272,46 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void rent_whenPlayerHasLessThan0Money_playerIsRemovedFromGame() {
+        // Given
+        rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner();
+
+        // When
+        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player4, OrderKind.IDLE);
+        fakeDices.setScore(16);
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        fakeDices.setScore(16 + (40 * 4));
+        monopoly.submitOrder(player2, OrderKind.BUY);
+        /*
+        Player 2 buys the second company, and Player 3 is moved by 176 on the company location, they are confronted with
+        a rent of 1760 which they cannot pay.
+        */
+
+        final var balances = monopoly.getPlayersBalance();
+        final var locations = monopoly.getPlayersLocation();
+
+        // Then
+        assertThatPlayerIsRemovedFromGame(balances, locations, player3);
+        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - 150) + 1500));
     }
+
+
 
     @Test
     public void rent_whenLessThanTwoPlayers_exceptionIsThrown() {
+        // Given
+        rent_whenPlayerHasLessThan0Money_playerIsRemovedFromGame();
+        /*
+         * Player 3 is bankrupt, they cannot issue an order, so the next round is played.
+         * Player 4 is then also moved by 176 and bankrupt, is bankrupted .
+         */
+
+        // When
+    }
+
+    private void assertThatPlayerIsRemovedFromGame(Map<String, BigDecimal> balances, Map<String, Location> locations, String player) {
+        assertThat(balances.containsKey(player)).isFalse();
+        assertThat(locations.containsKey(player)).isFalse();
     }
 
     private void assertPlayerIsOnLocation(Map<String, Location> locations, String player, String expectedLocationName, Location.LocationKind expectedLocationKind) {

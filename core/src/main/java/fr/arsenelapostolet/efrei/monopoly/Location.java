@@ -1,14 +1,12 @@
 package fr.arsenelapostolet.efrei.monopoly;
 
-import java.util.UUID;
-
 public interface Location {
 
     String getName();
 
     LocationKind getKind();
 
-    UUID getOwner();
+    String getOwner();
 
     enum LocationKind {
         START,
