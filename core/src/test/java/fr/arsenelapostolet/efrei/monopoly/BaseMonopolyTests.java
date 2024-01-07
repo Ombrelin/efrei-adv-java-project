@@ -6,22 +6,21 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BaseMonopolyTests {
 
-    private final UUID player1 = UUID.randomUUID();
-    private final UUID player2 = UUID.randomUUID();
-    private final UUID player3 = UUID.randomUUID();
-    private final UUID player4 = UUID.randomUUID();
+    private final String player1 = "player 1";
+    private final String player2 = "player 2";
+    private final String player3 = "player 3";
+    private final String player4 = "player 4";
 
     private Monopoly monopoly;
     private final FakeDices fakeDices = new FakeDices();
 
-    public abstract Monopoly createMonopoly(Dices dices, List<UUID> playerIds);
+    public abstract Monopoly createMonopoly(Dices dices, List<String> playerIds);
 
     @BeforeEach
     public void setUp() {
