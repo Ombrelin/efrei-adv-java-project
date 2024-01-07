@@ -278,7 +278,7 @@ public abstract class BaseMonopolyTests {
     public void rent_whenLessThanTwoPlayers_exceptionIsThrown() {
     }
 
-    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
+    private void assertPlayerIsOnLocation(Map<String, Location> locations, String player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
         final var playerLocation = locations.get(player);
         assertThat(playerLocation.getName()).isEqualTo(expectedLocationName);
         assertThat(playerLocation.getKind()).isEqualTo(expectedLocationKind);
@@ -290,7 +290,7 @@ public abstract class BaseMonopolyTests {
                 .stream()
                 .filter(property -> property.getName().equals(anObject))
                 .findFirst()
-                .get();
+                .orElseThrow();
     }
 
 }
