@@ -5,22 +5,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BaseMonopolyTests {
 
-    private final UUID player1 = UUID.randomUUID();
-    private final UUID player2 = UUID.randomUUID();
-    private final UUID player3 = UUID.randomUUID();
-    private final UUID player4 = UUID.randomUUID();
+    private final String player1 = "player 1";
+    private final String player2 = "player 2";
+    private final String player3 = "player 3";
+    private final String player4 = "player 4";
 
     private Monopoly monopoly;
     private final FakeDices fakeDices = new FakeDices();
 
-    public abstract Monopoly createMonopoly(Dices dices, List<UUID> playerIds);
+    public abstract Monopoly createMonopoly(Dices dices, List<String> playerIds);
 
     @BeforeEach
     public void setUp() {
@@ -41,7 +40,7 @@ public abstract class BaseMonopolyTests {
     }
 
     @Test
-    public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored(){
+    public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored() {
         // Given
         fakeDices.setScore(5);
 
@@ -156,7 +155,7 @@ public abstract class BaseMonopolyTests {
         assertPlayerIsOnLocation(locations, player4, "Rue Victor Hugo", Location.LocationKind.PROPERTY); // P4 advanced 3
     }
 
-    private void assertPlayerIsOnLocation(Map<UUID, Location> locations, UUID player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
+    private void assertPlayerIsOnLocation(Map<String, Location> locations, String player, String expectedLocationName, Location.LocationKind expectedLocationKind) {
         final var playerLocation = locations.get(player);
         assertThat(playerLocation.getName()).isEqualTo(expectedLocationName);
         assertThat(playerLocation.getKind()).isEqualTo(expectedLocationKind);
