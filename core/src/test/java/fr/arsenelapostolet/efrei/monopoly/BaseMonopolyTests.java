@@ -176,6 +176,11 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void buy_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(10);
+
+        // When
         monopoly.submitOrder(player1, OrderKind.BUY);
         final var player1Balance = monopoly.getPlayersBalance().get(player1);
         final var boughtProperty = findLocationByName("Rue Victor Hugo");
@@ -187,8 +192,12 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void rent_whenPropertyIsOwned_rentIsPaidToOwner() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(3);
+        monopoly.submitOrder(player1, OrderKind.BUY);
+
         // When
-        buy_propertyIsOwnedByBuyerAndTheirMoneyIsSpent(); // Advances player2 by 3 too
         final var player1Balance = monopoly.getPlayersBalance().get(player1);
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
 
@@ -199,9 +208,12 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void buy_whenPropertyIsStation_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
-        // When
+        // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(5);
+                .thenReturn(5)
+                .thenReturn(10);
+
+        // When
         monopoly.submitOrder(player1, OrderKind.IDLE);
         monopoly.submitOrder(player2, OrderKind.BUY);
 
@@ -216,11 +228,15 @@ public abstract class BaseMonopolyTests {
     @Test
     public void rent_whenPropertyIsStation_rentIsPaidToOwner() {
         // Given
-        buy_whenPropertyIsStation_propertyIsOwnedByBuyerAndTheirMoneyIsSpent();
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(5);
 
         // When
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
+
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
-        final var player3Balance = monopoly.getPlayersBalance().get(player2);
+        final var player3Balance = monopoly.getPlayersBalance().get(player3);
 
         // Then
         assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 200 + 25));
@@ -230,9 +246,12 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void buy_whenPropertyIsCompany_propertyIsOwnedByBuyerAndTheirMoneyIsSpent() {
-        // When
+        // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(12);
+                .thenReturn(12)
+                .thenReturn(10);
+
+        // When
         monopoly.submitOrder(player1, OrderKind.IDLE);
         monopoly.submitOrder(player2, OrderKind.BUY);
 
@@ -246,8 +265,16 @@ public abstract class BaseMonopolyTests {
 
     @Test
     public void rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(12)
+                .thenReturn(12)
+                .thenReturn(10);
+
         // When
-        buy_whenPropertyIsCompany_propertyIsOwnedByBuyerAndTheirMoneyIsSpent(); // Advances player2 by 3 too
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
+
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var player3Balance = monopoly.getPlayersBalance().get(player3);
 
@@ -259,18 +286,19 @@ public abstract class BaseMonopolyTests {
     @Test
     public void rent_whenPropertyIsCompanyAndOwnerOwnsTwo_rentIsPaidToOwner() {
         // Given
-        rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner();
-
         when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(12)
                 .thenReturn(3)
                 .thenReturn(3)
-                .thenReturn(16);
+                .thenReturn(3)
+                .thenReturn(16)
+                .thenReturn(25);
 
         // When
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
         monopoly.submitOrder(player3, OrderKind.IDLE);
         monopoly.submitOrder(player4, OrderKind.IDLE);
-
-
         monopoly.submitOrder(player1, OrderKind.IDLE);
         monopoly.submitOrder(player2, OrderKind.BUY);
 
@@ -278,28 +306,32 @@ public abstract class BaseMonopolyTests {
         final var player3Balance = monopoly.getPlayersBalance().get(player3);
 
         // Then
-        assertThat(player2Balance).isEqualTo(new BigDecimal((1500 - 150) + (2 * (12 * 4)) + (16 * 10)));
-        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - (12 * 4) - (16 * 10)));
+        assertThat(player2Balance).isEqualTo(new BigDecimal((1500 - (150 * 2)) + (25 * 10)));
+        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - (25 * 10)));
     }
 
     @Test
     public void rent_whenPlayerHasLessThan0Money_playerIsRemovedFromGame() {
         // Given
-        rent_whenPropertyIsCompanyAndOwnerOwnsOnlyOne_rentIsPaidToOwner();
         when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(12)
+                .thenReturn(3)
+                .thenReturn(3)
+                .thenReturn(3)
                 .thenReturn(16)
-                .thenReturn(16 + (40 * 4))
-                .thenReturn(3);
+                .thenReturn(25 + (40 * 4));
 
         // When
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.BUY);
         monopoly.submitOrder(player3, OrderKind.IDLE);
         monopoly.submitOrder(player4, OrderKind.IDLE);
         monopoly.submitOrder(player1, OrderKind.IDLE);
         monopoly.submitOrder(player2, OrderKind.BUY);
 
         /*
-        Player 2 buys the second company, and Player 3 is moved by 176 on the company location, they are confronted with
-        a rent of 1760 which they cannot pay.
+        Player 2 buys the second company, and Player 3 is moved by 185 on the company location, they are confronted with
+        a rent of 1850 which they cannot pay.
         */
 
         final var balances = monopoly.getPlayersBalance();
@@ -315,12 +347,16 @@ public abstract class BaseMonopolyTests {
         // Given
         monopoly = createMonopoly(fakeDices, List.of(player1, player2));
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(12)
+                .thenReturn(3)
+                .thenReturn(9)
                 .thenReturn(3)
                 .thenReturn(16)
-                .thenReturn(16 + (40 * 4));
+                .thenReturn(22 + (40 * 4))
+                .thenReturn(1);
 
         // When
+        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player2, OrderKind.IDLE);
         monopoly.submitOrder(player1, OrderKind.BUY);
         monopoly.submitOrder(player2, OrderKind.IDLE);
         monopoly.submitOrder(player1, OrderKind.BUY);
@@ -330,7 +366,7 @@ public abstract class BaseMonopolyTests {
 
         // Then
         assertThatPlayerIsRemovedFromGame(balances, locations, player2);
-        assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.BUY))
+        assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.IDLE))
                 .isInstanceOf(GameFinishedException.class);
         assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500));
     }
