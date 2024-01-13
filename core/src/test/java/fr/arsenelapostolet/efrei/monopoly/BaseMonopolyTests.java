@@ -8,6 +8,8 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public abstract class BaseMonopolyTests {
 
@@ -17,13 +19,15 @@ public abstract class BaseMonopolyTests {
     private final String player4 = "player 4";
 
     private Monopoly monopoly;
-    private final FakeDices fakeDices = new FakeDices();
+    private final Dices fakeDices = mock(Dices.class);
 
     public abstract Monopoly createMonopoly(Dices dices, List<String> playerIds);
 
     @BeforeEach
     public void setUp() {
-        fakeDices.setScore(3);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(3);
+
         monopoly = createMonopoly(fakeDices, List.of(player1, player2, player3, player4));
     }
 
@@ -42,7 +46,8 @@ public abstract class BaseMonopolyTests {
     @Test
     public void start_whenInvalidOrderIsIssued_thenOrderIsIgnored() {
         // Given
-        fakeDices.setScore(5);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(5);
 
         // When
         monopoly.submitOrder(player3, OrderKind.IDLE);
@@ -59,7 +64,8 @@ public abstract class BaseMonopolyTests {
     @Test
     public void start_whenFirstPlayerIssuesIdleOrder_secondPlayerMoved() {
         // Given
-        fakeDices.setScore(5);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(5);
 
         // When
         monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 is moved by 5
@@ -76,13 +82,13 @@ public abstract class BaseMonopolyTests {
     @Test
     public void fullRound_everyPlayerIssuesIdleOrder_everyPlayerMoves() {
         // When
-        fakeDices.setScore(5);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(5)
+                .thenReturn(6)
+                .thenReturn(2);
+
         monopoly.submitOrder(player1, OrderKind.IDLE);  // P1 acts, advances P2 by 5
-
-        fakeDices.setScore(6);
         monopoly.submitOrder(player2, OrderKind.IDLE);  // P2 acts, advances P3 by 6
-
-        fakeDices.setScore(2);
         monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 2
 
         // Then
@@ -102,7 +108,8 @@ public abstract class BaseMonopolyTests {
         monopoly.submitOrder(player2, OrderKind.IDLE);  // P2 acts, advances P3 by 3
         monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 3
 
-        fakeDices.setScore(10);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(10);
         for (var i = 0; i < 5; ++i) {
             monopoly.submitOrder(player4, OrderKind.IDLE); // P4 acts, advances P1 by 5 * 10
             monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P1 by 5 * 10
@@ -125,25 +132,21 @@ public abstract class BaseMonopolyTests {
     @Test
     public void twoRounds_everyPlayerIssuesIdleOrder_everyPlayerMovesTwice() {
         // When
-        fakeDices.setScore(5);
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(5)
+                .thenReturn(6)
+                .thenReturn(2)
+                .thenReturn(5)
+                .thenReturn(3)
+                .thenReturn(2)
+                .thenReturn(1);
+
         monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 by 5
-
-        fakeDices.setScore(6);
         monopoly.submitOrder(player2, OrderKind.IDLE); // P2 acts, advances P3 by 6
-
-        fakeDices.setScore(2);
         monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 2
-
-        fakeDices.setScore(5);
         monopoly.submitOrder(player4, OrderKind.IDLE); // P4 acts, advances P1 by 5
-
-        fakeDices.setScore(3);
         monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 by 3
-
-        fakeDices.setScore(2);
         monopoly.submitOrder(player2, OrderKind.IDLE); // P2 acts, advances P3 by 2
-
-        fakeDices.setScore(1);
         monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 1
 
         // Then
