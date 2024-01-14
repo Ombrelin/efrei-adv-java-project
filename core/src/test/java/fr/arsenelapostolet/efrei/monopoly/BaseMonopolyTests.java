@@ -339,7 +339,7 @@ public abstract class BaseMonopolyTests {
 
         // Then
         assertThatPlayerIsRemovedFromGame(balances, locations, player3);
-        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500));
+        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500  + 200));
     }
 
     @Test
@@ -368,7 +368,7 @@ public abstract class BaseMonopolyTests {
         assertThatPlayerIsRemovedFromGame(balances, locations, player2);
         assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.IDLE))
                 .isInstanceOf(GameFinishedException.class);
-        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500));
+        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500 + 200));
     }
 
     // Livrable 3
@@ -377,7 +377,7 @@ public abstract class BaseMonopolyTests {
     public void prison_landsOnGoToPrison_playerGoesToPrison() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20);
+                .thenReturn(30);
 
         // When
         monopoly.submitOrder(player1, OrderKind.IDLE);
@@ -393,7 +393,7 @@ public abstract class BaseMonopolyTests {
     public void prison_playerInPrisonAndIdles_thenPlayerDoesntMove() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20)
+                .thenReturn(30)
                 .thenReturn(3);
 
         // When
@@ -414,7 +414,7 @@ public abstract class BaseMonopolyTests {
     public void prison_playerInPrisonCantPayOnInitialRound_thenPlayerDoesntMove() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20)
+                .thenReturn(30)
                 .thenReturn(3);
 
         // When
@@ -433,7 +433,7 @@ public abstract class BaseMonopolyTests {
     public void prison_playerInPrisonAndPaysOnFirstPrisonRound_thenPlayerMoves() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20)
+                .thenReturn(30)
                 .thenReturn(3);
 
         // When
@@ -456,7 +456,7 @@ public abstract class BaseMonopolyTests {
     public void prison_playerInPrisonAndPaysOnSecondPrisonRound_thenPlayerMoves() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20)
+                .thenReturn(30)
                 .thenReturn(3);
 
         // When
@@ -479,7 +479,7 @@ public abstract class BaseMonopolyTests {
     public void prison_playerInPrison_thirdPrisonRound_thenPlayerPaysThenMoves() {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
-                .thenReturn(20)
+                .thenReturn(30)
                 .thenReturn(3);
 
         // When
@@ -545,7 +545,7 @@ public abstract class BaseMonopolyTests {
 
         monopoly.submitOrder(player3, OrderKind.IDLE);
 
-        final var player4BalanceAfterLandingOnFirstStation = monopoly.getPlayersBalance().get(player3);
+        final var player4BalanceAfterLandingOnFirstStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingFirstStationRent = monopoly.getPlayersBalance().get(player2);
 
         monopoly.submitOrder(player4, OrderKind.IDLE);
@@ -556,7 +556,7 @@ public abstract class BaseMonopolyTests {
 
         monopoly.submitOrder(player3, OrderKind.IDLE);
 
-        final var player4BalanceAfterLandingOnSecondStation = monopoly.getPlayersBalance().get(player3);
+        final var player4BalanceAfterLandingOnSecondStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingSecondStationRent = monopoly.getPlayersBalance().get(player2);
 
         monopoly.submitOrder(player4, OrderKind.IDLE);
@@ -567,7 +567,7 @@ public abstract class BaseMonopolyTests {
 
         monopoly.submitOrder(player3, OrderKind.IDLE);
 
-        final var player4BalanceAfterLandingOnThirdStation = monopoly.getPlayersBalance().get(player3);
+        final var player4BalanceAfterLandingOnThirdStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingThirdStationRent = monopoly.getPlayersBalance().get(player2);
 
         monopoly.submitOrder(player4, OrderKind.IDLE);
@@ -578,7 +578,7 @@ public abstract class BaseMonopolyTests {
 
         monopoly.submitOrder(player3, OrderKind.IDLE);
 
-        final var player4BalanceAfterLandingOnLastStation = monopoly.getPlayersBalance().get(player3);
+        final var player4BalanceAfterLandingOnLastStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingLastStationRent = monopoly.getPlayersBalance().get(player2);
 
         // Then
