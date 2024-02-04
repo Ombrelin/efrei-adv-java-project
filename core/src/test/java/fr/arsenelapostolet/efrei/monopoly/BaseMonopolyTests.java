@@ -319,7 +319,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3)
                 .thenReturn(3)
                 .thenReturn(16)
-                .thenReturn(25 + (40 * 4));
+                .thenReturn(25 + (40 * 7));
 
         // When
         monopoly.submitOrder(player1, OrderKind.IDLE);
@@ -330,8 +330,8 @@ public abstract class BaseMonopolyTests {
         monopoly.submitOrder(player2, OrderKind.BUY);
 
         /*
-        Player 2 buys the second company, and Player 3 is moved by 185 on the company location, they are confronted with
-        a rent of 1850 which they cannot pay.
+        Player 2 buys the second company, and Player 3 is moved by 305 on the company location, they are confronted with
+        a rent of 3050 which they cannot pay (Player 3 has 1500 + 7*200, which is 2900)
         */
 
         final var balances = monopoly.getPlayersBalance();
@@ -339,7 +339,7 @@ public abstract class BaseMonopolyTests {
 
         // Then
         assertThatPlayerIsRemovedFromGame(balances, locations, player3);
-        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500  + 200));
+        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7*200)));
     }
 
     @Test
@@ -351,7 +351,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(9)
                 .thenReturn(3)
                 .thenReturn(16)
-                .thenReturn(22 + (40 * 4))
+                .thenReturn(22 + (40 * 7))
                 .thenReturn(1);
 
         // When
@@ -368,7 +368,7 @@ public abstract class BaseMonopolyTests {
         assertThatPlayerIsRemovedFromGame(balances, locations, player2);
         assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.IDLE))
                 .isInstanceOf(GameFinishedException.class);
-        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + 1500 + 200));
+        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7*200)));
     }
 
     // Livrable 3
