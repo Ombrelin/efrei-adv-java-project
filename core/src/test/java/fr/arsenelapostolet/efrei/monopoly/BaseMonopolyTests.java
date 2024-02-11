@@ -54,7 +54,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(5);
 
         // When
-        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
 
         // Then
         final var locations = monopoly.getPlayersLocation();
@@ -72,7 +72,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(5);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 is moved by 5
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of()); // P1 acts, advances P2 is moved by 5
 
         // Then
         final var locations = monopoly.getPlayersLocation();
@@ -91,9 +91,9 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(6)
                 .thenReturn(2);
 
-        monopoly.submitOrder(player1, OrderKind.IDLE);  // P1 acts, advances P2 by 5
-        monopoly.submitOrder(player2, OrderKind.IDLE);  // P2 acts, advances P3 by 6
-        monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 2
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());  // P1 acts, advances P2 by 5
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());  // P2 acts, advances P3 by 6
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of()); // P3 acts, advances P4 by 2
 
         // Then
         final var locations = monopoly.getPlayersLocation();
@@ -108,17 +108,17 @@ public abstract class BaseMonopolyTests {
     public void fullBoard_continueToNextBoardTour() {
         // When
 
-        monopoly.submitOrder(player1, OrderKind.IDLE);  // P1 acts, advances P2 by 3
-        monopoly.submitOrder(player2, OrderKind.IDLE);  // P2 acts, advances P3 by 3
-        monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 3
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());  // P1 acts, advances P2 by 3
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());  // P2 acts, advances P3 by 3
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of()); // P3 acts, advances P4 by 3
 
         when(fakeDices.throwTwoSixSidedDices())
                 .thenReturn(10);
         for (var i = 0; i < 5; ++i) {
-            monopoly.submitOrder(player4, OrderKind.IDLE); // P4 acts, advances P1 by 5 * 10
-            monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P1 by 5 * 10
-            monopoly.submitOrder(player2, OrderKind.IDLE); // P2 acts, advances P1 by 5 * 10
-            monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P1 by 5 * 10
+            monopoly.submitOrder(player4, OrderKind.IDLE, Map.of()); // P4 acts, advances P1 by 5 * 10
+            monopoly.submitOrder(player1, OrderKind.IDLE, Map.of()); // P1 acts, advances P1 by 5 * 10
+            monopoly.submitOrder(player2, OrderKind.IDLE, Map.of()); // P2 acts, advances P1 by 5 * 10
+            monopoly.submitOrder(player3, OrderKind.IDLE, Map.of()); // P3 acts, advances P1 by 5 * 10
         }
 
         // Every player advanced by 53
@@ -145,13 +145,13 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(2)
                 .thenReturn(1);
 
-        monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 by 5
-        monopoly.submitOrder(player2, OrderKind.IDLE); // P2 acts, advances P3 by 6
-        monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 2
-        monopoly.submitOrder(player4, OrderKind.IDLE); // P4 acts, advances P1 by 5
-        monopoly.submitOrder(player1, OrderKind.IDLE); // P1 acts, advances P2 by 3
-        monopoly.submitOrder(player2, OrderKind.IDLE); // P2 acts, advances P3 by 2
-        monopoly.submitOrder(player3, OrderKind.IDLE); // P3 acts, advances P4 by 1
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of()); // P1 acts, advances P2 by 5
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of()); // P2 acts, advances P3 by 6
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of()); // P3 acts, advances P4 by 2
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of()); // P4 acts, advances P1 by 5
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of()); // P1 acts, advances P2 by 3
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of()); // P2 acts, advances P3 by 2
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of()); // P3 acts, advances P4 by 1
 
         // Then
         final var locations = monopoly.getPlayersLocation();
@@ -181,7 +181,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(10);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
         final var player1Balance = monopoly.getPlayersBalance().get(player1);
         final var boughtProperty = findLocationByName("Rue Victor Hugo");
 
@@ -195,7 +195,7 @@ public abstract class BaseMonopolyTests {
         // Given
         when(fakeDices.throwTwoSixSidedDices())
                 .thenReturn(3);
-        monopoly.submitOrder(player1, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
 
         // When
         final var player1Balance = monopoly.getPlayersBalance().get(player1);
@@ -214,8 +214,8 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(10);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var boughtProperty = findLocationByName("Villejuif - Léo Lagrange");
@@ -232,8 +232,8 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(5);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var player3Balance = monopoly.getPlayersBalance().get(player3);
@@ -252,8 +252,8 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(10);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var boughtProperty = findLocationByName("Electricité de Villejuif");
@@ -272,8 +272,8 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(10);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var player3Balance = monopoly.getPlayersBalance().get(player3);
@@ -295,12 +295,12 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(25);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2Balance = monopoly.getPlayersBalance().get(player2);
         final var player3Balance = monopoly.getPlayersBalance().get(player3);
@@ -322,12 +322,12 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(25 + (40 * 7));
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         /*
         Player 2 buys the second company, and Player 3 is moved by 305 on the company location, they are confronted with
@@ -339,7 +339,7 @@ public abstract class BaseMonopolyTests {
 
         // Then
         assertThatPlayerIsRemovedFromGame(balances, locations, player3);
-        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7*200)));
+        assertThat(balances.get(player2)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7 * 200)));
     }
 
     @Test
@@ -355,20 +355,20 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(1);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.BUY);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
 
         final var balances = monopoly.getPlayersBalance();
         final var locations = monopoly.getPlayersLocation();
 
         // Then
         assertThatPlayerIsRemovedFromGame(balances, locations, player2);
-        assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.IDLE))
+        assertThatThrownBy(() -> monopoly.submitOrder(player1, OrderKind.IDLE, Map.of()))
                 .isInstanceOf(GameFinishedException.class);
-        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7*200)));
+        assertThat(balances.get(player1)).isEqualTo(new BigDecimal((1500 - (2 * 150)) + (1500 + 7 * 200)));
     }
 
     // Livrable 3
@@ -380,7 +380,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(30);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
 
@@ -397,12 +397,12 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
 
@@ -418,8 +418,8 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.PAY_PRISON);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.PAY_PRISON, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
         final var balances = monopoly.getPlayersBalance();
@@ -437,12 +437,12 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.PAY_PRISON);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.PAY_PRISON, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
         final var balances = monopoly.getPlayersBalance();
@@ -460,12 +460,12 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.PAY_PRISON);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.PAY_PRISON, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
         final var balances = monopoly.getPlayersBalance();
@@ -483,15 +483,15 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(3);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.IDLE);
-        monopoly.submitOrder(player3, OrderKind.IDLE);
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
 
         final var locations = monopoly.getPlayersLocation();
         final var balances = monopoly.getPlayersBalance();
@@ -508,7 +508,7 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(43);
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
 
         final var balances = monopoly.getPlayersBalance();
 
@@ -538,45 +538,45 @@ public abstract class BaseMonopolyTests {
                 .thenReturn(10); // Player 4
 
         // When
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2BalanceAfterBuyingFirstStation = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
 
         final var player4BalanceAfterLandingOnFirstStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingFirstStationRent = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2BalanceAfterBuyingSecondStation = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
 
         final var player4BalanceAfterLandingOnSecondStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingSecondStationRent = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2BalanceAfterBuyingThirdStation = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
 
         final var player4BalanceAfterLandingOnThirdStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingThirdStationRent = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player4, OrderKind.IDLE);
-        monopoly.submitOrder(player1, OrderKind.IDLE);
-        monopoly.submitOrder(player2, OrderKind.BUY);
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
 
         final var player2BalanceAfterBuyingLastStation = monopoly.getPlayersBalance().get(player2);
 
-        monopoly.submitOrder(player3, OrderKind.IDLE);
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
 
         final var player4BalanceAfterLandingOnLastStation = monopoly.getPlayersBalance().get(player4);
         final var player2BalanceAfterCollectingLastStationRent = monopoly.getPlayersBalance().get(player2);
@@ -597,6 +597,264 @@ public abstract class BaseMonopolyTests {
         assertThat(player2BalanceAfterBuyingLastStation).isEqualTo(new BigDecimal(1500 - (4 * 200) + 25 + 50 + 100));
         assertThat(player4BalanceAfterLandingOnLastStation).isEqualTo(new BigDecimal(1500 - 25 - 50 - 100 - 200));
         assertThat(player2BalanceAfterCollectingLastStationRent).isEqualTo(new BigDecimal(1500 - (4 * 200) + 25 + 50 + 100 + 200));
+    }
+
+    // Livrable 4
+
+    @Test
+    public void build_playerCanBuildOnTheirProperty_moneyIsSpentAndRentIsHigher() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(1)
+                .thenReturn(1)
+                .thenReturn(1)
+                .thenReturn(4)
+                .thenReturn(2);
+
+
+        // When
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(1500 - 60 - 50));
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 10));
+
+    }
+
+    @Test
+    public void build_playerCanBuildOnTheirPropertyToTheMaxLevel_moneyIsSpentAndRentIsHigher() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(1) // P2
+                .thenReturn(10) // P3
+                .thenReturn(10) // P4
+                .thenReturn(4) // P1
+                .thenReturn(2) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40); // P2
+
+        // When
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(1500 - 60 - (50 * 5) + 10 + 30 + 90 + 160 + 250));
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - (10 + 30 + 90 + 160 + 250) + (4 * 200)));
+    }
+
+    @Test
+    public void build_playerCanBuildOnTheirPropertyToTheMaxLevelButNotFurther_additionalBuildOrderIgnored() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(1) // P2
+                .thenReturn(10) // P3
+                .thenReturn(10) // P4
+                .thenReturn(4) // P1
+                .thenReturn(2) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40) // P2
+                .thenReturn(1) // P3
+                .thenReturn(1) // P4
+                .thenReturn(1) // P1
+                .thenReturn(40); // P2
+
+        // When
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Victor Hugo"));
+
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(1500 - 60 - (50 * 5) + 10 + 30 + 90 + 160 + 250 + 250));
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - (10 + 30 + 90 + 160 + 250 + 250) + (4 * 200)));
+    }
+
+    @Test
+    public void buildOtherProperty_playerCanBuildOnTheirPropertyToTheMaxLevel_moneyIsSpentAndRentIsHigher() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices()) // P1 -> "Rue Victor Hugo" (IDLE)
+                .thenReturn(14) // P2 -> "Avenue de Stalingrad" (BUY)
+                .thenReturn(1) // P3 -> "Rue Raspail" (IDLE)
+                .thenReturn(1) // P4 -> "Rue Raspail" (IDLE)
+                .thenReturn(21) // P1 -> "Rue Rosa Luxembourg" (BUY)
+                .thenReturn(10) // P2 -> "Rue Rosa Luxembourg" (BUILD - "Avenue de Stalingrad)
+                .thenReturn(13) // P3 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(13) // P4 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(1) // P1 -> "Villejuif - Louis Aragon" (BUILD - "Rue Rosa Luxembourg")
+                .thenReturn(40) // P2 -> "Rue Rosa Luxembourg" (BUILD - "Avenue de Stalingrad)
+                .thenReturn(40) // P3 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(40) // P4 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(1) // P1 ... (BUILD - "Rue Rosa Luxembourg")
+                .thenReturn(40) // P2 -> "Rue Rosa Luxembourg" (BUILD - "Avenue de Stalingrad)
+                .thenReturn(40) // P3 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(40) // P4 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(1) // P1 ... (BUILD - "Rue Rosa Luxembourg")
+                .thenReturn(40) // P2 -> "Rue Rosa Luxembourg" (BUILD - "Avenue de Stalingrad)
+                .thenReturn(80) // P3 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(80) // P4 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(1) // P1 ... (BUILD - "Rue Rosa Luxembourg")
+                .thenReturn(40) // P2 -> "Rue Rosa Luxembourg" (BUILD - "Avenue de Stalingrad)
+                .thenReturn(40) // P3 -> "Avenue de Stalingrad" (IDLE)
+                .thenReturn(40); // P4 -> "Avenue de Stalingrad" (IDLE)
+
+        // When
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUY, Map.of());
+        monopoly.submitOrder(player2, OrderKind.BUILD, Map.of("propertyName", "Avenue de Stalingrad"));
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Rosa Luxembourg"));
+        monopoly.submitOrder(player2, OrderKind.BUILD, Map.of("propertyName", "Avenue de Stalingrad"));
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Rosa Luxembourg"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of("propertyName", "Avenue de Stalingrad"));
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Rosa Luxembourg"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of("propertyName", "Avenue de Stalingrad"));
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Rosa Luxembourg"));
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of("propertyName", "Avenue de Stalingrad"));
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.BUILD, Map.of("propertyName", "Rue Rosa Luxembourg"));
+
+        final var player1Balance = monopoly.getPlayersBalance().get(player1);
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+        final var player3Balance = monopoly.getPlayersBalance().get(player3);
+        final var player4Balance = monopoly.getPlayersBalance().get(player4);
+
+        // Then
+        assertThat(player1Balance).isEqualTo(new BigDecimal(
+                        1500 // Base money
+                                - 240 // Purchase
+                                - (150 * 5) // Construction investment
+                                + 20 + 100 + 300 + 750 + 900 + 1100 // Capital revenue
+                )
+        );
+        assertThat(player2Balance).isEqualTo(new BigDecimal(
+                        1500 // Base money
+                                - 160 // Purchase
+                                - (5 * 100) // Construction investment
+                                + (2 * (60 + 180 + 500 + 700 + 900)) // Capital revenue
+                                - (20 + 100 + 300 + 750 + 900 + 1100) // Rent payment
+                                + (4 * 200) // Wages
+                )
+        );
+
+        // Then
+        assertThat(player3Balance).isEqualTo(new BigDecimal(1500 - (60 + 180 + 500 + 700 + 900) + (5 * 200)));
+        assertThat(player4Balance).isEqualTo(new BigDecimal(1500 - (60 + 180 + 500 + 700 + 900) + (5 * 200)));
+    }
+
+    @Test
+    public void taxes_whenPassByTaxLocation_playerPays() {
+        // Given
+        when(fakeDices.throwTwoSixSidedDices())
+                .thenReturn(4)
+                .thenReturn(1)
+                .thenReturn(1)
+                .thenReturn(1)
+                .thenReturn(34);
+
+
+        // When
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player2, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player3, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player4, OrderKind.IDLE, Map.of());
+        monopoly.submitOrder(player1, OrderKind.IDLE, Map.of());
+
+        final var player2Balance = monopoly.getPlayersBalance().get(player2);
+
+        // Then
+        assertThat(player2Balance).isEqualTo(new BigDecimal(1500 - 200 - 100));
     }
 
     private void assertThatPlayerIsRemovedFromGame(Map<String, BigDecimal> balances, Map<String, Location> locations, String player) {

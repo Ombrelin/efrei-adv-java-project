@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface Monopoly {
 
-    void submitOrder(String playerId, OrderKind order);
+    void submitOrder(String playerId, OrderKind order, Map<String, Object> orderParameters);
     Map<String, Location> getPlayersLocation();
     Map<String, BigDecimal> getPlayersBalance();
     List<Location> getBoard();
